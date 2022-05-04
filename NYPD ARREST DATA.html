@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+	
+  <style> .btn{border:1px solid yellow; padding:5px;display:inline-block} 
+	body {
+	background-image: url('NYPD_API.jpeg');
+  	background-repeat: no-repeat;
+	background-attachment: fixed;
+  	background-size:100% 100%;
+	 }
+	</style>
+
+</head>
+<body>
+	
+
+    <div class="container">
+	
+    <h style="color: yellow;">
+    <h1>NYPD ARREST DATA</h1>
+
+	<P style="color: white;">Crime rates in the New York across the board increased 5% in 2021. 
+		<br> More violent crimes often happen around us, and we must keep an eye on it.</P>
+	<P style="color: yellow"> Crime Mapping Research </P> 
+	<p style="color: white;"> is used by analysts in agencies. 
+		<br> to map, visualize, and anlyze crime incident patterns.
+		<br> Likewise, these two charts are for what types of crime often happen in New York during the year of 2021.
+	</P><br>
+
+	<p style="color: yellow;">Please press the Button to see a pie chart displaying <br> the different types of crimes committed in New York during the year of 2021.</p>
+    <p><input type="button" class="btn btn-primary" id="btn_1" value="chart">
+	<div id="textDisplayed1"></div> <br>
+
+	<p style="color: yellow">Please press the Button to see a bar chart displaying <br> the different types of crimes committed in New York during the year of 2021.</p>
+	<p><input type="button" class="btn btn-primary" id="btn_2" value="chart">
+		<div id="textDisplayed2"></div> <br>
+	
+</div>
+
+</body>
+<script>
+
+getCrime1();
+getCrime2();
+getCrime3();
+getCrime4();
+getCrime5();
+
+var currentYear = new Date().getFullYear();
+var globalarray = [];
+function x_axis (){
+	for(let i = 155508; i < currentYear; i++){
+		globalarray.push(i);
+	}
+}
+var answer1 = 0;
+function getCrime1(){
+$.getJSON("https://data.cityofnewyork.us/resource/uip8-fykc.json", function(result){
+		let textcompare = result[0]["ofns_desc"];
+        let answer = 0;
+		console.log(result);
+        for(let i=0; i < result.length; i++){
+			if (textcompare == result[i]["ofns_desc"]){
+                textcompare = result[i]["ofns_desc"]
+                answer = answer + 1;
+				console.log(result[i]["ofns_desc"])
+			}
+		}
+		console.log(answer)
+		answer1 = answer;
+	}); 
+}
+
+var answer2 = 0;
+function getCrime2(){
+$.getJSON("https://data.cityofnewyork.us/resource/uip8-fykc.json", function(result){
+        let textcompare = result[1]["ofns_desc"];
+        let answer = 0;
+		console.log(result);
+        for(let i=0; i < result.length;i++){
+			if (textcompare == result[i]["ofns_desc"]){
+                textcompare = result[i]["ofns_desc"]
+                answer = answer + 1;
+				console.log(result[i]["ofns_desc"])
+			}
+		}
+		answer2 = answer
+	});
+}
+
+var answer3 = 0;
+function getCrime3(){
+$.getJSON("https://data.cityofnewyork.us/resource/uip8-fykc.json", function(result){
+        let textcompare = result[2]["ofns_desc"];
+        let answer = 0;
+		console.log(result);
+        for(let i=0; i < result.length;i++){
+			if (textcompare == result[i]["ofns_desc"]){
+                textcompare = result[i]["ofns_desc"]
+                answer = answer + 1;
+				console.log(result[i]["ofns_desc"])
+			}
+		}
+		answer3 = answer
+	});
+}
+
+function getCrime4(){
+$.getJSON("https://data.cityofnewyork.us/resource/uip8-fykc.json", function(result){
+        let textcompare = result[28]["ofns_desc"];
+        let answer = 0;
+		console.log(result);
+        for(let i=0; i < result.length;i++){
+			if (textcompare == result[i]["ofns_desc"]){
+                textcompare = result[i]["ofns_desc"]
+                answer = answer + 1;
+				console.log(result[i]["ofns_desc"])
+			}
+		}
+		answer4 = answer
+	});
+}
+
+function getCrime5(){
+$.getJSON("https://data.cityofnewyork.us/resource/uip8-fykc.json", function(result){
+        let textcompare = result[29]["ofns_desc"];
+        let answer = 0;
+		console.log(result);
+        for(let i=0; i < result.length;i++){
+			if (textcompare == result[i]["ofns_desc"]){
+                textcompare = result[i]["ofns_desc"]
+                answer = answer + 1;
+				console.log(result[i]["ofns_desc"])
+			}
+		}
+		answer5 = answer
+	});
+}
+
+function chart(){
+var CrimeName = ['RAPE', 'Arson', 'Sex_Crimes', 'Felony_Assault', 'Weapons'];
+var answers= [answer1,answer2,answer3,answer4,answer5];
+var imageChartData = '';
+var imageChartLabels = '';
+for (let i =0; i<CrimeName.length; i++){
+	imageChartLabels += CrimeName[i];
+	imageChartData += answers[i];
+	if (i<CrimeName.length-1){
+		imageChartLabels += '|';
+		imageChartData +=',';
+	}
+		}
+
+var imageHTMLcode = '<img src="https://image-charts.com/chart?cht=p3&chs=400x600&chd=t:'+imageChartData+'&chl='+imageChartLabels+'" alt="Static Chart"/>';
+		console.log(imageHTMLcode);
+		$('#textDisplayed1').html(imageHTMLcode);
+}
+
+function newchart(){
+
+$.getJSON("https://data.cityofnewyork.us/resource/uip8-fykc.json",function(result){
+    var RAPE = 0;
+    var ARSON = 0;
+    var SEX_CRIMES = 0;
+    var FELONY_ASSAULT = 0;
+    var WEAPONS = 0;
+    
+    for(let i=0; i < result.length;i++){
+        let Crime = result[i]['ofns_desc'];
+
+        if(Crime == "RAPE"){
+            RAPE += 1;
+        }
+        if(Crime == "ARSON"){
+            ARSON += 1;
+        }
+        if(Crime == "SEX CRIMES"){
+            SEX_CRIMES += 1;
+        }
+        if(Crime == "FELONY ASSAULT"){
+            FELONY_ASSAULT += 1;
+        }
+        if(Crime == "DANGEROUS WEAPONS"){
+            WEAPONS += 1;
+        }
+        }
+
+		var Total = RAPE + ARSON + SEX_CRIMES + FELONY_ASSAULT + WEAPONS
+
+        RAPE = ((RAPE/Total)*100).toFixed(2);
+
+        ARSON = ((ARSON/Total)*100).toFixed(2);
+
+        SEX_CRIMES = ((SEX_CRIMES/Total)*100).toFixed(2);
+
+        FELONY_ASSAULT = ((FELONY_ASSAULT/Total)*100).toFixed(2);
+
+        WEAPONS = ((WEAPONS/Total)*100).toFixed(2);
+
+        var arrestChart = '<img src="https://image-charts.com/chart?chbh=a&chbr=10&chco=fdb45c%2C27c9c2%2C1869b7&chd=t%3A'+RAPE+'%2C'+ARSON+'%2C'+SEX_CRIMES+'%2C'+FELONY_ASSAULT+'%2C'+WEAPONS+'&chdl=Crimes%7CFemale&chds=0%2C120&chm=N%2C000000%2C0%2C%2C10%7CN%2C000000%2C1%2C%2C10%7CN%2C000000%2C2%2C%2C10&chma=0%2C0%2C10%2C10&chs=700x200&cht=bvg&chxs=0%2C000000%2C0%2C0%2C_&chxt=y" alt="Static Chart"/>';
+
+        $('#textDisplayed2').html(arrestChart + "<br>"+ "<b>"+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+ "RAPE" +
+			"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+ "ARSON"+
+			"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+"SEX_CRIMES"+
+			"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+"FELONY"+
+			"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+"WEAPONS"+"</b>");
+});
+
+    }
+
+$('#btn_1').click(function(){
+	chart();
+});
+
+$('#btn_2').click(function(){
+	newchart();
+});
+
+
+
+</script>
+</html>
